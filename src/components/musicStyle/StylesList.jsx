@@ -1,57 +1,41 @@
 ﻿import React from "react";
-import MusicsList from "../music/MusicsList";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 class StylesList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isLoading: false,
-            items: [],
-        };
+        this.state = {items: [],};
     }
     componentDidMount() {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://localhost:7179/api/musicStyles", true); // замените адрес
-        xhr.send();
-        this.setState({ isLoading: true });
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState !== 4) {
-                return false;
-            }
-            if (xhr.status !== 200) {
-                console.log(xhr.status + ": " + xhr.statusText);
-            } else {
-                console.log('tt=' + JSON.parse(xhr.responseText));
-                this.setState({
-                    items: JSON.parse(xhr.responseText),
-                    isLoading: false,
-                });
-            }
-        };
+        axios({
+            url: 'https://localhost:7179/api/musicStyles',
+            method: 'get',
+            headers: {"Content-Type": "application/json"},
+        })
+            .then((response) => {
+                if (response.status == 200) {
+                    this.setState({items: response.data})
+                }
+            });
     }
     render() {
-        const { items, isLoading } = this.state;
-        if (isLoading) {
-            return <div>Загрузка...</div>; // рисуем прелоадер
-        } else if (items.length == 0) {
+        if (this.state.items.length == 0) {
             return (<tr>
                 <td>
                     <h3 > Стилей нет </h3>
                 </td>
-            </tr>); // рисуем прелоадер
+            </tr>);
         }
         else {
             return (<tbody>
                 {
-                    items.map(item => (
+                    this.state.items.map(item => (
                         <tr className='tr1'>
                             <td className='td1'>{item.styleName}</td>
                             <td className='td1'>
 							    <Link className="a_bt2" to={{pathname:"/EditStyleForm/"+item.id }}>Редактировать</Link>
-
-                                <a className='editdelMusicStyle a_bt2' id={item.id}>Удалить</a>
+                                <Link className="a_bt2" to={{pathname:"/DeleteStyleForm/"+item.id }}>Удалить</Link>
                             </td>
                         </tr>
                     ))

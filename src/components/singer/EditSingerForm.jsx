@@ -55,11 +55,11 @@ class EditSingerForm extends React.Component {
         if (this.state.singerNameValid === true) {
             axios({
                 url: "https://localhost:7179/api/singers",
-                method: "POST",
+                method: "PUT",
                 headers: {"Content-Type": "application/json"},
                 data: {
                     id:this.state.singerId,
-                    styleName: this.state.singerName
+                    singerName: this.state.singerName
                 }
             }).then(function (response) {
 

@@ -37,7 +37,7 @@ class CreateSingerForm extends React.Component {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 data: {
-                    styleName: this.statesingerName
+                    singerName: this.state.singerName
                 }
             }).then(function (response) {
 

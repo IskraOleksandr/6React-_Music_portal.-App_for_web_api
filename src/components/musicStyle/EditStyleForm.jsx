@@ -1,87 +1,102 @@
-﻿import React, { useLayoutEffect } from "react";
+﻿import React from "react";
+import withRouter from '../withRouter';
 import axios from 'axios';
-import {useParams} from "react-router-dom";
 
-const EditStyleForm = () => {
-    const [styleName, setStyleName] = React.useState('');
+class EditStyleForm extends React.Component {
+    constructor(props) {
+        super(props);
+        console.log('Props:', this.props);
+        console.log('Props:', this.props.params.id);
 
-    const params = useParams();
-    console.log(params.id + 'id');
-    const [styleId, setStyleId] = React.useState(params.id);
+        let styleId = this.props.params.id;
 
-    const validateStyleName = (styleName) => {
-        return styleName.length > 2;
+        let styleName = '';
+        let styleNameIsValid = this.validateStyleName(styleName);
+
+        this.state = {
+            styleId: styleId,
+            styleName: styleName,
+            styleNameValid: styleNameIsValid,
+        };
+
+        this.onStyleNameChange = this.onStyleNameChange.bind(this);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
-    const [styleNameValid, setStyleNameValid] = React.useState(validateStyleName(styleName));
-
-
-    const onChange = (e) => {
-        let val = e.target.value;
-        let valid = validateStyleName(val);
-        setStyleName(val);
-        setStyleNameValid(valid);
-    }
-
-    useLayoutEffect(() => {
-        axios({url: "https://localhost:7179/api/musicStyles/"+styleId,
+    componentDidMount() {
+        axios({
+            url: "https://localhost:7179/api/musicStyles/" + this.state.styleId,
             method: "GET",
             headers: {"Content-Type": "application/json"},
-        }).then(function (response) {
-            console.log('hhh'+ response.data.styleName);
-            setStyleName(response.data.styleName)
-            setStyleId(response.data.id);
+        }).then((response) => {
+            console.log('hhh' + response.data.styleName);
+            this.setState({
+                styleId: response.data.id,
+                styleName: response.data.styleName,
+            });
         }).catch(function (error) {
             alert(error);
         });
-    }, []);
+    }
 
-    const handleSubmit = (e) => {
+    validateStyleName(styleName) {
+        return styleName.length > 2;
+    }
+
+    onStyleNameChange(e) {
+        let val = e.target.value;
+        let valid = this.validateStyleName(val);
+        this.setState({styleName: val, styleNameValid: valid, showStyleNameError: true});
+    }
+
+
+    handleSubmit(e) {
         e.preventDefault();
-
-        if (styleNameValid === true && styleId != 0) {
+        if (this.state.styleNameValid === true) {
             axios({
                 url: "https://localhost:7179/api/musicStyles",
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
                 data: {
-                    id:styleId,
-                    styleName: styleName
+                    id:this.state.styleId,
+                    styleName: this.state.styleName
                 }
             }).then(function (response) {
 
             }).catch(function (error) {
                 alert(error);
             });
-        } else {
         }
     }
 
-    return (
-        <div>
+    render() {
+        let errorStyleNameMessage = this.state.styleNameValid ? "" : "Некорректное имя исполнителя";
+
+        return (
             <div className="dv1v">
-                <h1 id="h1AdEdMusicStyle" className="h1_n">Edit style</h1>
+                <h1 id="h1AdEdMusicStyle" className="h1_n">Edit singer</h1>
 
                 <div className="div_l1 div_l2n1">
-                    <form name="addStyleForm" onSubmit={(e) => handleSubmit(e)}>
+                    <form name="addStyleForm" onSubmit={this.handleSubmit}>
                         <div className="div_l2 div_l2n" style={{height: 'max-content'}}>
                             <br/>
                             <div className="div_l3n">
                                 <div className="div_l4">
                                     <label className="label_l1">Style name</label>
-                                    <input type="text" onChange={(e) => onChange(e)} value={styleName}
+                                    <input type="text" onChange={this.onStyleNameChange} value={this.state.styleName}
                                            className="input1 "/>
                                 </div>
-                                <span className="span_error"></span>
+                                {this.state.showStyleNameError && (<span className="span_error">{errorStyleNameMessage}</span>)}
                             </div>
 
                             <div className="div_subm">
-                                <input className="input_subm" type="submit" value="Добавить"/>
+                                <input className="input_subm" type="submit" value="Изменить"/>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>);
+        );
+    }
 }
-
-export default EditStyleForm;
+export default withRouter(EditStyleForm);
