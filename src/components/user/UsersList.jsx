@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import MusicsList from "../music/MusicsList";
+import {Link} from "react-router-dom";
 
 class UsersList extends React.Component {
     constructor(props) {
@@ -33,9 +34,9 @@ class UsersList extends React.Component {
     render() {
         const { items, isLoading } = this.state;
         if (isLoading) {
-            return <div>Загрузка...</div>; // рисуем прелоадер
+            return <div>Загрузка...</div>;
         } else if (items.length == 0) {
-            return <div>Данных нет...</div>; // рисуем прелоадер
+            return <div>Данных нет...</div>;
         }
         else {
             return (<body>
@@ -47,7 +48,7 @@ class UsersList extends React.Component {
                         <td className='td1'>{item.email}</td>
                         <td className='td1'>{item.level}</td>
                         <td className='td1'>
-                            <a className='editdelUser a_bt2' id={item.id}>Редактировать</a>
+                            <Link className="a_bt2" to={{pathname:"/EditUserForm/"+item.id }}>Редактировать</Link>
                             <a className='editdelUser a_bt2' id={item.id}>Удалить</a>
                         </td>
                     </tr>

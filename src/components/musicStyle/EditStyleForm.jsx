@@ -1,7 +1,6 @@
-﻿import React from "react";
+﻿import React, { useLayoutEffect } from "react";
 import axios from 'axios';
 import {useParams} from "react-router-dom";
-
 
 const EditStyleForm = () => {
     const [styleName, setStyleName] = React.useState('');
@@ -22,6 +21,19 @@ const EditStyleForm = () => {
         setStyleName(val);
         setStyleNameValid(valid);
     }
+
+    useLayoutEffect(() => {
+        axios({url: "https://localhost:7179/api/musicStyles/"+styleId,
+            method: "GET",
+            headers: {"Content-Type": "application/json"},
+        }).then(function (response) {
+            console.log('hhh'+ response.data.styleName);
+            setStyleName(response.data.styleName)
+            setStyleId(response.data.id);
+        }).catch(function (error) {
+            alert(error);
+        });
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();

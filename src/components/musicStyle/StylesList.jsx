@@ -49,7 +49,6 @@ class StylesList extends React.Component {
                         <tr className='tr1'>
                             <td className='td1'>{item.styleName}</td>
                             <td className='td1'>
-                                {/*<Link className="a_bt2" to={"/EditStyleForm/"+item.id}>Редактировать</Link>*/}
 							    <Link className="a_bt2" to={{pathname:"/EditStyleForm/"+item.id }}>Редактировать</Link>
 
                                 <a className='editdelMusicStyle a_bt2' id={item.id}>Удалить</a>

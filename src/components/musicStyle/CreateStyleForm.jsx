@@ -1,6 +1,7 @@
 ﻿import React from "react";
 import axios from 'axios';
 
+
 const CreateStyleForm = () => {
     const [styleName, setStyleName] = React.useState('');
     const validateStyleName = (styleName) => {

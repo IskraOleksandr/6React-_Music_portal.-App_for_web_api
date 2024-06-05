@@ -3,15 +3,19 @@ import './App.css';
 import './components/Style.css'
 import Nav from './components/Nav';
 import MusicsList from './components/music/MusicsList';
-import Styles from './components/musicStyle/Styles';
+
 import Users from './components/user/Users';
-import Singers from './components/singer/Singers';
+import CreateUserForm from "./components/user/CreateUserForm";
+import EditUserForm from "./components/user/EditUserForm";
+
+import Styles from './components/musicStyle/Styles';
 import CreateStyleForm from './components/musicStyle/CreateStyleForm';
 import EditStyleForm from "./components/musicStyle/EditStyleForm";
-// import StyleFormF from './components/StyleFormFuncComp';
 
-import SingerForm from './components/singer/SingerForm';
-import UserForm from './components/user/UserForm';
+import Singers from './components/singer/Singers';
+import CreateSingerForm from './components/singer/CreateSingerForm';
+import EditSingerForm from "./components/singer/EditSingerForm";
+
 
 function App() {
   return (
@@ -28,8 +32,12 @@ function App() {
                    <Route path="/CreateStyleForm" element={<CreateStyleForm/>} />
                    <Route path="/EditStyleForm/:id" element={<EditStyleForm/>} />
 
-                   <Route path="/SingerForm" element={<SingerForm singer_id="0"/>} />
-                   <Route path="/UserForm" element={<UserForm full_name="" Login="" age="" Password="" PasswordConfirm="" />} />
+                   <Route path="/CreateSingerForm" element={<CreateSingerForm/>} />
+                   <Route path="/EditSingerForm/:id" element={<EditSingerForm/>} />
+
+                   <Route path="/CreateUserForm" element={<CreateUserForm />} />
+                   <Route path="/EditUserForm/:id" element={<EditUserForm />} />
+
                </Routes>
            </div>
       </BrowserRouter>

@@ -5,10 +5,7 @@ import SingersList from './SingersList';
 class Singers extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            //isLoading: false,
-            //items: [],
-        };
+        this.state = {};
     }
     
     render() {
@@ -20,8 +17,7 @@ class Singers extends React.Component {
                         <div className="div_l2 div_l2n wh">
 
                             <br />
-                            <Link className="a_bt1 " to="/SingerForm">Добавить исполнителя</Link>
-                            {/*<a id="addStyle_Btn" className="a_bt1 ">Добавить исполнителя</a>*/}
+                            <Link className="a_bt1 " to="/CreateSingerForm">Добавить исполнителя</Link>
 
                             <div className="div_l3n wh">
                                 <div id="div_styles_table" className="div_l4 wh">
