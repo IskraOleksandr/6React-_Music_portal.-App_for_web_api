@@ -18,6 +18,7 @@ import Singers from './components/singer/Singers';
 import CreateSingerForm from './components/singer/CreateSingerForm';
 import EditSingerForm from "./components/singer/EditSingerForm";
 import DeleteSingerForm from "./components/singer/DeleteSingerForm";
+import DeleteUserForm from "./components/user/DeleteUserForm";
 
 
 
@@ -43,7 +44,7 @@ function App() {
 
                    <Route path="/CreateUserForm" element={<CreateUserForm />} />
                    <Route path="/EditUserForm/:id" element={<EditUserForm />} />
-                   {/*<Route path="/DeleteUserForm/:id" element={<DeleteUserForm />} />*/}
+                   <Route path="/DeleteUserForm/:id" element={<DeleteUserForm />} />
                </Routes>
            </div>
       </BrowserRouter>

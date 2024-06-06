@@ -107,14 +107,19 @@ class EditUserForm extends React.Component {
             method: "GET",
             headers: {"Content-Type": "application/json"},
         }).then((response) => {
-            console.log('hhh' + response.data.styleName);
+            console.log('hhh' + response.data);
            this.setState({
                userId: response.data.id,
-               firstName: response.data.login,
+               firstName: response.data.firstName,
+               firstNameValid: true,
                lastName: response.data.lastName,
+               lastNameValid: true,
                login: response.data.login,
+               loginValid: true,
                email: response.data.email,
+               emailValid: true,
                level: response.data.level,
+               levelValid: true,
            });
         }).catch(function (error) {
             alert(error);
@@ -124,10 +129,12 @@ class EditUserForm extends React.Component {
     const
     handleSubmit = (e) => {
         e.preventDefault();
-
+console.log(this.state.firstNameValid === true && this.state.lastNameValid &&
+    this.state.loginValid === true && this.state.emailValid === true &&
+    this.state.levelValid === true);
         if (this.state.firstNameValid === true && this.state.lastNameValid &&
             this.state.loginValid === true && this.state.emailValid === true &&
-            this.state.levelValid === true && this.state.userId != 0) {
+            this.state.levelValid === true) {
             axios({
                 url: "https://localhost:7179/api/users",
                 method: "PUT",
@@ -145,7 +152,7 @@ class EditUserForm extends React.Component {
             }).catch(function (error) {
                 alert(error);
             });
-        } else {
+        } else {alert('error');
         }
     }
 
@@ -204,7 +211,7 @@ class EditUserForm extends React.Component {
                             <div className="div_l3n">
                                 <div className="div_l4">
                                     <label htmlFor="us_edit_level" className="label_l1">Уровень доступа:</label>
-                                    <input value={this.state.level} className="input1 " type="number" min="0" max="2"
+                                    <input value={this.state.level} onChange={this.onLevelChange} className="input1 " type="number" min="0" max="2"
                                            placeholder="0"/>
                                 </div>
                                 {this.state.showLevelError && (<span className="span_error">{errorLevelMessage}</span>)}
@@ -212,7 +219,7 @@ class EditUserForm extends React.Component {
 
 
                             <div className="div_subm">
-                                <input id="Register_Btn" className="input_subm" type="button" value="Сохранить"/>
+                                <input id="Register_Btn" className="input_subm" type="submit" value="Сохранить"/>
                             </div>
                         </div>
                     </form>

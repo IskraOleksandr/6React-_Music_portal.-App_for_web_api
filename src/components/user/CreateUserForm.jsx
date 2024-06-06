@@ -1,4 +1,5 @@
 ﻿import React from "react";
+import axios from "axios";
 
 class CreateUserForm extends React.Component {
     constructor(props) {
@@ -123,16 +124,24 @@ class CreateUserForm extends React.Component {
             this.state.passwordValid === true &&
             this.state.passwordConfirmValid === true
         ) {
-            alert(
-                "Фио: " +
-                this.state.firstName +
-                "\nлогин: " +
-                this.state.login +
-                "\npassword: " +
-                this.state.password +
-                "\nPasswordConfirm: " +
-                this.state.passwordConfirm
-            );
+            axios({
+                url: "https://localhost:7179/api/users",
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                data: {
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    login: this.state.login,
+                    email: this.state.email,
+                    password: this.state.password,
+                    passwordConfirm: this.state.passwordConfirm,
+                    level: this.state.level,
+                }
+            }).then(function (response) {
+
+            }).catch(function (error) {
+                alert(error);
+            });
         }
     }
 
@@ -202,7 +211,7 @@ class CreateUserForm extends React.Component {
                             <input id="Level" type="hidden" value={this.state.level} />
 
                             <div className="div_subm">
-                                <input id="Register_Btn" className="input_subm" type="button" value="Сохранить" />
+                                <input id="Register_Btn" className="input_subm" type="submit" value="Сохранить" />
                             </div>
                         </div>
                     </form>

@@ -33,6 +33,7 @@ class EditSingerForm extends React.Component {
             this.setState({
                 singerId: response.data.id,
                 singerName: response.data.singerName,
+                singerNameValid:true,
             });
         }).catch(function (error) {
             alert(error);

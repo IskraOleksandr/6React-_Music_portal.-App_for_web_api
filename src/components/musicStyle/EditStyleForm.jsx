@@ -33,6 +33,7 @@ class EditStyleForm extends React.Component {
             this.setState({
                 styleId: response.data.id,
                 styleName: response.data.styleName,
+                styleNameValid:true,
             });
         }).catch(function (error) {
             alert(error);

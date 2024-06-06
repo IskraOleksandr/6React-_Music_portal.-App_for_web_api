@@ -1,5 +1,4 @@
 ﻿import React from "react";
-import MusicsList from "../music/MusicsList";
 import {Link} from "react-router-dom";
 import axios from "axios";
 
@@ -35,7 +34,7 @@ class UsersList extends React.Component {
                         <td className='td1'>{item.level}</td>
                         <td className='td1'>
                             <Link className="a_bt2" to={{pathname:"/EditUserForm/"+item.id }}>Редактировать</Link>
-                            <a className='editdelUser a_bt2' id={item.id}>Удалить</a>
+                            <Link className="a_bt2" to={{pathname:"/DeleteUserForm/"+item.id }}>Удалить</Link>
                         </td>
                     </tr>
                 ))}
