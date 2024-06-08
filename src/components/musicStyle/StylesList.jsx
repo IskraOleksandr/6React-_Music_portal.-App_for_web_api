@@ -7,6 +7,7 @@ class StylesList extends React.Component {
         super(props);
         this.state = {items: [],};
     }
+
     componentDidMount() {
         axios({
             url: 'https://localhost:7179/api/musicStyles',
@@ -19,30 +20,37 @@ class StylesList extends React.Component {
                 }
             });
     }
+
     render() {
         if (this.state.items.length == 0) {
-            return (<tr>
-                <td>
-                    <h3 > Стилей нет </h3>
-                </td>
-            </tr>);
-        }
-        else {
-            return (<tbody>
-                {
-                    this.state.items.map(item => (
-                        <tr className='tr1'>
-                            <td className='td1'>{item.styleName}</td>
-                            <td className='td1'>
-							    <Link className="a_bt2" to={{pathname:"/EditStyleForm/"+item.id }}>Редактировать</Link>
-                                <Link className="a_bt2" to={{pathname:"/DeleteStyleForm/"+item.id }}>Удалить</Link>
-                            </td>
-                        </tr>
-                    ))
-                }
-            </tbody >
+            return (<div>Стилей нет </div>);
+        } else {
+            return (<table className='table1'>
+                    <thead>
+                    <tr>
+                        <th className='th1'> Название стиля</th>
+                        <th className='th1'></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.items.map(item => (
+                            <tr className='tr1'>
+                                <td className='td1'>{item.styleName}</td>
+                                <td className='td1'>
+                                    <Link className="a_bt2"
+                                          to={{pathname: "/EditStyleForm/" + item.id}}>Редактировать</Link>
+                                    <Link className="a_bt2"
+                                          to={{pathname: "/DeleteStyleForm/" + item.id}}>Удалить</Link>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                    </tbody>
+                </table>
             );
         }
     }
 }
+
 export default StylesList;

@@ -1,6 +1,7 @@
 ﻿import React from "react";
 import withRouter from '../withRouter';
 import axios from 'axios';
+import {Navigate} from "react-router-dom";
 
 class DeleteSingerForm extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class DeleteSingerForm extends React.Component {
         let singerName = '';
 
         this.state = {
+            submitted:false,
             singerId: singerId,
             singerName: singerName,
         };
@@ -25,7 +27,6 @@ class DeleteSingerForm extends React.Component {
             method: "GET",
             headers: {"Content-Type": "application/json"},
         }).then((response) => {
-            console.log('hhh' + response.data.styleName);
             this.setState({
                 singerId: response.data.id,
                 singerName: response.data.singerName,
@@ -41,15 +42,17 @@ class DeleteSingerForm extends React.Component {
             url: "https://localhost:7179/api/singers/" + this.state.singerId,
             method: "DELETE",
             headers: {"Content-Type": "application/json"},
-        }).then(function (response) {
         }).catch(function (error) {
             alert(error);
         });
+
+        setInterval(() => this.setState({submitted: true}),1000);
     }
 
     render() {
         return (
             <div className="dv1v">
+                <br/><br/><br/><br/>
                 <h1 className="h1_n">Удаление исполнителя</h1>
                 <div className="div_l1 div_l2n1">
 
@@ -71,6 +74,7 @@ class DeleteSingerForm extends React.Component {
                         </form>
                     </div>
                 </div>
+                {this.state.submitted && <Navigate to="/singers" />}
             </div>
         );
     }

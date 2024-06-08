@@ -23,25 +23,31 @@ class SingersList extends React.Component {
 
     render() {
         if (this.state.items.length == 0) {
-            return (<tr>
-                <td><h3> Стилей нет </h3></td>
-            </tr>);
+            return (<div>Исполнителей нет </div>);
         } else {
-            return (<tbody>
-                {
-                    this.state.items.map(item => (
-                        <tr className='tr1'>
-                            <td className='td1'>{item.singerName}</td>
-                            <td className='td1'>
-                                <Link className="a_bt2"
-                                      to={{pathname: "/EditSingerForm/" + item.id}}>Редактировать</Link>
-                                <Link className="a_bt2"
-                                      to={{pathname: "/DeleteSingerForm/" + item.id}}>Удалить</Link>
-                            </td>
-                        </tr>
-                    ))
-                }
-                </tbody>
+            return (<table className='table1'>
+                    <thead>
+                    <tr>
+                        <th className='th1'> SingerName</th>
+                        <th className='th1'></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.items.map(item => (
+                            <tr className='tr1'>
+                                <td className='td1'>{item.singerName}</td>
+                                <td className='td1'>
+                                    <Link className="a_bt2"
+                                          to={{pathname: "/EditSingerForm/" + item.id}}>Редактировать</Link>
+                                    <Link className="a_bt2"
+                                          to={{pathname: "/DeleteSingerForm/" + item.id}}>Удалить</Link>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                    </tbody>
+                </table>
             );
 
         }

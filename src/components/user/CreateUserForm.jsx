@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import axios from "axios";
+import {Navigate} from "react-router-dom";
 
 class CreateUserForm extends React.Component {
     constructor(props) {
@@ -25,6 +26,7 @@ class CreateUserForm extends React.Component {
         let level = 0;
 
         this.state = {
+            submitted:false,
             firstName: firstName,
             lastName: lastName,
             login: login,
@@ -116,13 +118,9 @@ class CreateUserForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        if (
-            this.state.firstNameValid === true &&
-            this.state.lastNameValid &&
-            this.state.loginValid === true &&
-            this.state.emailValid === true &&
-            this.state.passwordValid === true &&
-            this.state.passwordConfirmValid === true
+        if ( this.state.firstNameValid === true && this.state.lastNameValid &&
+            this.state.loginValid === true && this.state.emailValid === true &&
+            this.state.passwordValid === true && this.state.passwordConfirmValid === true
         ) {
             axios({
                 url: "https://localhost:7179/api/users",
@@ -137,11 +135,11 @@ class CreateUserForm extends React.Component {
                     passwordConfirm: this.state.passwordConfirm,
                     level: this.state.level,
                 }
-            }).then(function (response) {
-
             }).catch(function (error) {
                 alert(error);
             });
+
+            setInterval(() => this.setState({submitted: true}),1000);
         }
     }
 
@@ -155,7 +153,8 @@ class CreateUserForm extends React.Component {
 
         return (
             <div className="dv1v" style={{height: '560px'}}>
-                <h1 className="h1_n">Регистрация </h1>
+                <br/><br/><br/><br/>
+                <h1 className="h1_n">Добавление пользователя </h1>
                 <div className="div_l1 div_l2n1">
                     <form name="addUserForm" onSubmit={this.handleSubmit}>
                         <div className="div_l2 div_l2n" style={{height: 'max-content'}}>
@@ -163,23 +162,28 @@ class CreateUserForm extends React.Component {
                             <div className="div_l3">
                                 <div className="div_l4">
                                     <label htmlFor="FirstName" className="label_l1">Имя:</label>
-                                    <input value={this.state.firstName} onChange={this.onFirstNameChange} name="adFirstName" id="FirstName" className="input1 " type="text"/>
+                                    <input value={this.state.firstName} onChange={this.onFirstNameChange}
+                                           name="adFirstName" id="FirstName" className="input1 " type="text"/>
                                 </div>
-                                {this.state.showFirstNameError && (<span className="span_error">{errorFirstNameMessage}</span>)}
+                                {this.state.showFirstNameError && (
+                                    <span className="span_error">{errorFirstNameMessage}</span>)}
                             </div>
 
                             <div className="div_l3n">
                                 <div className="div_l4">
                                     <label htmlFor="LastName" className="label_l1">Фамилия:</label>
-                                    <input value={this.state.lastName} onChange={this.onLastNameChange} name="adLastName" id="LastName" className="input1 " type="text"/>
+                                    <input value={this.state.lastName} onChange={this.onLastNameChange}
+                                           name="adLastName" id="LastName" className="input1 " type="text"/>
                                 </div>
-                                {this.state.showLastNameError && (<span className="span_error">{errorLastNameMessage}</span>)}
+                                {this.state.showLastNameError && (
+                                    <span className="span_error">{errorLastNameMessage}</span>)}
                             </div>
 
                             <div className="div_l3n">
                                 <div className="div_l4">
                                     <label htmlFor="Login" className="label_l1">Логин:</label>
-                                    <input value={this.state.login} onChange={this.onLoginChange} name="adLogin" id="Login" className="input1 " type="text"/>
+                                    <input value={this.state.login} onChange={this.onLoginChange} name="adLogin"
+                                           id="Login" className="input1 " type="text"/>
                                 </div>
                                 {this.state.showLoginError && (<span className="span_error">{errorLoginMessage}</span>)}
                             </div>
@@ -187,7 +191,8 @@ class CreateUserForm extends React.Component {
                             <div className="div_l3n">
                                 <div className="div_l4">
                                     <label htmlFor="Email" className="label_l1">Email:</label>
-                                    <input value={this.state.email} onChange={this.onEmailChange} name="adEmail" id="Email" className="input1 " type="email"/>
+                                    <input value={this.state.email} onChange={this.onEmailChange} name="adEmail"
+                                           id="Email" className="input1 " type="email"/>
                                 </div>
                                 {this.state.showEmailError && (<span className="span_error">{errorEmailMessage}</span>)}
                             </div>
@@ -195,27 +200,33 @@ class CreateUserForm extends React.Component {
                             <div className="div_l3n">
                                 <div className="div_l4">
                                     <label htmlFor="Password" className="label_l1">Пароль:</label>
-                                    <input value={this.state.password} onChange={this.onPasswordChange} name="adPassword" id="Password" className="input1 " type="password"/>
+                                    <input value={this.state.password} onChange={this.onPasswordChange}
+                                           name="adPassword" id="Password" className="input1 " type="password"/>
                                 </div>
-                                {this.state.showPasswordError && (<span className="span_error">{errorPasswordMessage}</span>)}
+                                {this.state.showPasswordError && (
+                                    <span className="span_error">{errorPasswordMessage}</span>)}
                             </div>
 
                             <div className="div_l3n">
                                 <div className="div_l4">
                                     <label htmlFor="PasswordConfirm" className="label_l1">Подтверджение пароля:</label>
-                                    <input value={this.state.passwordConfirm} onChange={this.onPasswordConfirmChange} name="adPasswordConfirm" id="PasswordConfirm" className="input1 " type="password" />
+                                    <input value={this.state.passwordConfirm} onChange={this.onPasswordConfirmChange}
+                                           name="adPasswordConfirm" id="PasswordConfirm" className="input1 "
+                                           type="password"/>
                                 </div>
-                                {this.state.showPasswordConfirmError && (<span className="span_error">{errorConfirmPasswordMessage}</span>)}
+                                {this.state.showPasswordConfirmError && (
+                                    <span className="span_error">{errorConfirmPasswordMessage}</span>)}
                             </div>
 
-                            <input id="Level" type="hidden" value={this.state.level} />
+                            <input id="Level" type="hidden" value={this.state.level}/>
 
                             <div className="div_subm">
-                                <input id="Register_Btn" className="input_subm" type="submit" value="Сохранить" />
+                                <input id="Register_Btn" className="input_subm" type="submit" value="Добавить"/>
                             </div>
                         </div>
                     </form>
                 </div>
+                {this.state.submitted && <Navigate to="/users" />}
             </div>
         );
     }

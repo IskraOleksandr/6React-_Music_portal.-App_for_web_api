@@ -1,63 +1,55 @@
 ﻿import React from "react";
+import {Link} from "react-router-dom";
+import axios from "axios";
 
 class MusicsList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isLoading: false,
-            items: [],
-        };
+        this.state = {items: [],};
     }
     componentDidMount() {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://localhost:7179/api/musics", true); // замените адрес
-        xhr.send();
-        this.setState({ isLoading: true });
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState !== 4) {
-                return false;
-            }
-            if (xhr.status !== 200) {
-                console.log(xhr.status + ": " + xhr.statusText);
-            } else {
-                console.log('tt=' + JSON.parse(xhr.responseText));
-                this.setState({
-                    items: JSON.parse(xhr.responseText),
-                    isLoading: false,
-                });
-            }
-        };
+        axios({
+            url: 'https://localhost:7179/api/musics',
+            method: 'get',
+            headers: {"Content-Type": "application/json"},
+        })
+            .then((response) => {
+                if (response.status == 200) {
+                    this.setState({items: response.data})
+                }
+            });
     }
+
+
     render() {
-        const { items, isLoading } = this.state;
-        if (isLoading) {
-            return <div>Загрузка...</div>; // рисуем прелоадер
-        } else if (items.length == 0) {
-            return <h3 className='dv1v' > Песен нет </h3>; // рисуем прелоадер
-        }
-        else {
+        if (this.state.items.length == 0) {
+            return <h3 className='dv1v'> Песен нет </h3>;
+        } else {
             return (
                 <div>
                     {
-                        items.map(item => (
-                            <><br /><br /><div class='div_m1'>
-                                <div class='div_mess div_m2'>
-                                    <h1 class='h1_m'>{item.video_Name}({item.year})</h1>
-                                    <video controls loop class='video'>
-                                        <source src={item.video_URL} type='video/webm' />
-                                    </video>
+                        this.state.items.map(item => (
+                            <><br/><br/>
+                                <div className='div_m1'>
+                                    <div className='div_mess div_m2'>
+                                        <h1 className='h1_m'>{item.video_Name}({item.year})</h1>
+                                        <video controls loop className='video'>
+                                            <source src={item.video_URL} type='video/webm'/>
+                                        </video>
+                                    </div>
+                                    <div className='div_m3'>
+                                        <h2>{item.video_Name}({item.year})</h2>
+                                        <p>Исполнитель: {item.singer.singerName}</p>
+                                        <p>Альбом: {item.album}</p>
+                                        <p>Стиль: {item.musicStyle.styleName}</p>
+                                        <p>Дата публикации: {item.videoDate}</p>
+                                        <Link className="a_bt"
+                                              to={{pathname: "/EditMusicForm/" + item.id}}>Редактировать</Link>
+                                        <Link className="a_bt"
+                                              to={{pathname: "/DeleteMusicForm/" + item.id}}>Удалить</Link>
+                                    </div>
                                 </div>
-                                <div class='div_m3'>
-                                    <h2>{item.video_Name}({item.year})</h2>
-                                    <p>Исполнитель: {item.singer.singerName}</p>
-                                    <p>Альбом: {item.album}</p>
-                                    <p>Стиль: {item.musicStyle.styleName}</p>
-                                    <p>Дата публикации: {item.videoDate}</p>
-                                    <a class='editdelMusic a_bt' id={item.id}>Редактировать</a>
-                                    <a class='editdelMusic a_bt' id={item.id}>Удалить</a>
-                                </div>
-                            </div><br /><br /><br /></>
+                                <br/><br/><br/></>
                         ))
                     }
                 </div>
@@ -65,4 +57,5 @@ class MusicsList extends React.Component {
         }
     }
 }
+
 export default MusicsList;

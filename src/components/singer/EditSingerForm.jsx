@@ -1,19 +1,20 @@
 ﻿import React from "react";
 import withRouter from '../withRouter';
 import axios from "axios";
+import {Navigate} from "react-router-dom";
 
 class EditSingerForm extends React.Component {
     constructor(props) {
         super(props);
         console.log('Props:', this.props);
         console.log('Props:', this.props.params.id);
-
         let singerId = this.props.params.id;
 
         let singerName = '';
         let singerNameIsValid = this.validateSingerName(singerName);
 
         this.state = {
+            submitted:false,
             singerId: singerId,
             singerName: singerName,
             singerNameValid: singerNameIsValid,
@@ -29,7 +30,6 @@ class EditSingerForm extends React.Component {
             method: "GET",
             headers: {"Content-Type": "application/json"},
         }).then((response) => {
-            console.log('hhh' + response.data.styleName);
             this.setState({
                 singerId: response.data.id,
                 singerName: response.data.singerName,
@@ -67,6 +67,8 @@ class EditSingerForm extends React.Component {
             }).catch(function (error) {
                 alert(error);
             });
+
+            setInterval(() => this.setState({submitted: true}),1000);
         }
     }
 
@@ -75,7 +77,8 @@ class EditSingerForm extends React.Component {
 
         return (
             <div className="dv1v">
-                <h1 id="h1AdEdMusicStyle" className="h1_n">Add singer</h1>
+                <br/><br/><br/><br/>
+                <h1 id="h1AdEdMusicStyle" className="h1_n">Редактирование исполнителя</h1>
 
                 <div className="div_l1 div_l2n1">
                     <form name="addStyleForm" onSubmit={this.handleSubmit}>
@@ -83,7 +86,7 @@ class EditSingerForm extends React.Component {
                             <br/>
                             <div className="div_l3n">
                                 <div className="div_l4">
-                                    <label className="label_l1">Singer name</label>
+                                    <label className="label_l1">Имя исполнителя:</label>
                                     <input type="text" onChange={this.onSingerNameChange} value={this.state.singerName}
                                            className="input1 "/>
                                 </div>
@@ -96,6 +99,7 @@ class EditSingerForm extends React.Component {
                         </div>
                     </form>
                 </div>
+                {this.state.submitted && <Navigate to="/singers" />}
             </div>
         );
     }

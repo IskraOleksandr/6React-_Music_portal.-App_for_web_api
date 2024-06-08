@@ -7,7 +7,7 @@ function Nav() {
             <NavLink to="/musics" className={setActive}>
                 Музыкальный портал
             </NavLink>
-            <NavLink to="/createUser" className={setActive}>
+            <NavLink to="/CreateMusicForm" className={setActive}>
                 Добавить клип
             </NavLink>
             <NavLink to="/styles" className={setActive}>

@@ -1,6 +1,7 @@
 ﻿import React from "react";
 import withRouter from '../withRouter';
 import axios from "axios";
+import {Navigate} from "react-router-dom";
 
 class EditUserForm extends React.Component {
     constructor(props) {
@@ -26,6 +27,7 @@ class EditUserForm extends React.Component {
         let levelIsValid = this.validateLevel(level);
 
         this.state = {
+            submitted:false,
             userId: userId,
             firstName: firstName,
             lastName: lastName,
@@ -129,9 +131,7 @@ class EditUserForm extends React.Component {
     const
     handleSubmit = (e) => {
         e.preventDefault();
-console.log(this.state.firstNameValid === true && this.state.lastNameValid &&
-    this.state.loginValid === true && this.state.emailValid === true &&
-    this.state.levelValid === true);
+
         if (this.state.firstNameValid === true && this.state.lastNameValid &&
             this.state.loginValid === true && this.state.emailValid === true &&
             this.state.levelValid === true) {
@@ -147,12 +147,11 @@ console.log(this.state.firstNameValid === true && this.state.lastNameValid &&
                     email: this.state.email,
                     level: this.state.level,
                 }
-            }).then(function (response) {
-
             }).catch(function (error) {
                 alert(error);
             });
-        } else {alert('error');
+
+            setInterval(() => this.setState({submitted: true}),1000);
         }
     }
 
@@ -165,7 +164,8 @@ console.log(this.state.firstNameValid === true && this.state.lastNameValid &&
 
         return (
             <div className="dv1v" style={{height: '560px'}}>
-                <h1 className="h1_n">Регистрация </h1>
+                <br/><br/><br/><br/>
+                <h1 className="h1_n">Редактирование пользователя </h1>
                 <div className="div_l1 div_l2n1">
                     <form name="addUserForm" onSubmit={this.handleSubmit}>
                         <div className="div_l2 div_l2n" style={{height: 'max-content'}}>
@@ -219,11 +219,12 @@ console.log(this.state.firstNameValid === true && this.state.lastNameValid &&
 
 
                             <div className="div_subm">
-                                <input id="Register_Btn" className="input_subm" type="submit" value="Сохранить"/>
+                                <input id="Register_Btn" className="input_subm" type="submit" value="Изменить"/>
                             </div>
                         </div>
                     </form>
                 </div>
+                {this.state.submitted && <Navigate to="/users" />}
             </div>
         );
     }

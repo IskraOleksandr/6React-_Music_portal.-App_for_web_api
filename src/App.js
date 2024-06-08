@@ -19,6 +19,9 @@ import CreateSingerForm from './components/singer/CreateSingerForm';
 import EditSingerForm from "./components/singer/EditSingerForm";
 import DeleteSingerForm from "./components/singer/DeleteSingerForm";
 import DeleteUserForm from "./components/user/DeleteUserForm";
+import CreateMusicForm from "./components/music/CreateMusicForm";
+import EditMusicForm from "./components/music/EditMusicForm";
+import DeleteMusicForm from "./components/music/DeleteMusicForm";
 
 
 
@@ -29,6 +32,9 @@ function App() {
              <Nav />
                <Routes>
                    <Route path="/musics" element={<MusicsList />} />
+                   <Route path="/CreateMusicForm" element={<CreateMusicForm/>} />
+                   <Route path="/EditMusicForm/:id" element={<EditMusicForm />} />
+                   <Route path="/DeleteMusicForm/:id" element={<DeleteMusicForm />} />
 
                    <Route path="/styles" element={<Styles />} />
                    <Route path="/users" element={<Users />} />

@@ -1,13 +1,11 @@
 ﻿import React from "react";
 import withRouter from '../withRouter';
 import axios from 'axios';
+import {Navigate} from "react-router-dom";
 
 class DeleteUserForm extends React.Component {
     constructor(props) {
         super(props);
-        console.log('Props:', this.props);
-        console.log('Props:', this.props.params.id);
-
         let userId = this.props.params.id;
         let firstName = '';
         let lastName = '';
@@ -17,6 +15,7 @@ class DeleteUserForm extends React.Component {
         let level = 0;
 
         this.state = {
+            submitted:false,
             userId: userId,
             firstName: firstName,
             lastName: lastName,
@@ -54,16 +53,17 @@ class DeleteUserForm extends React.Component {
             url: "https://localhost:7179/api/users/" + this.state.userId,
             method: "DELETE",
             headers: {"Content-Type": "application/json"},
-        }).then(function (response) {
         }).catch(function (error) {
             alert(error);
         });
+
+        setInterval(() => this.setState({submitted: true}),1000);
     }
 
     render() {
         return (
             <div className="dv1v">
-
+                <br/><br/><br/><br/>
                 <h1 className="h1_n">Удаление пользователя</h1>
 
                 <div className="div_l1 div_l2n1">
@@ -117,7 +117,7 @@ class DeleteUserForm extends React.Component {
                             </div>
                         </form>
                     </div>
-
+                    {this.state.submitted && <Navigate to="/users" />}
                 </div>
             </div>
         );

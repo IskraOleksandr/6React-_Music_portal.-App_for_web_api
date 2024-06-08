@@ -24,7 +24,17 @@ class UsersList extends React.Component {
             return <div>Данных нет...</div>;
         }
         else {
-            return (<body>
+            return (<table className='table1'>
+                <thead>
+                <tr>
+                    <th className='th2'>Имя</th>
+                    <th className='th2'>Фамилия</th>
+                    <th className='th2'>Логин</th>
+                    <th className='th2'>Email</th>
+                    <th className='th2'>Уровень доступа</th>
+                    <th className="th2"></th>
+                </tr>
+                </thead><tbody>
                 {this.state.items.map(item => (
                     <tr className='tr1'>
                         <td className='td1'>{item.firstName}</td>
@@ -38,7 +48,7 @@ class UsersList extends React.Component {
                         </td>
                     </tr>
                 ))}
-            </body>
+                </tbody></table>
             );
         }
     }

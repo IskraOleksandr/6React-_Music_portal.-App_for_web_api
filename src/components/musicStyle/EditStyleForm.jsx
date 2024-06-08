@@ -1,6 +1,7 @@
 ﻿import React from "react";
 import withRouter from '../withRouter';
 import axios from 'axios';
+import {Navigate} from "react-router-dom";
 
 class EditStyleForm extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class EditStyleForm extends React.Component {
         let styleNameIsValid = this.validateStyleName(styleName);
 
         this.state = {
+            submitted:false,
             styleId: styleId,
             styleName: styleName,
             styleNameValid: styleNameIsValid,
@@ -62,11 +64,11 @@ class EditStyleForm extends React.Component {
                     id:this.state.styleId,
                     styleName: this.state.styleName
                 }
-            }).then(function (response) {
-
             }).catch(function (error) {
                 alert(error);
             });
+
+            setInterval(() => this.setState({submitted: true}),1000);
         }
     }
 
@@ -75,7 +77,8 @@ class EditStyleForm extends React.Component {
 
         return (
             <div className="dv1v">
-                <h1 id="h1AdEdMusicStyle" className="h1_n">Edit singer</h1>
+                <br/><br/><br/><br/>
+                <h1 id="h1AdEdMusicStyle" className="h1_n">Редактирование стиля</h1>
 
                 <div className="div_l1 div_l2n1">
                     <form name="addStyleForm" onSubmit={this.handleSubmit}>
@@ -83,7 +86,7 @@ class EditStyleForm extends React.Component {
                             <br/>
                             <div className="div_l3n">
                                 <div className="div_l4">
-                                    <label className="label_l1">Style name</label>
+                                    <label className="label_l1">Название стиля:</label>
                                     <input type="text" onChange={this.onStyleNameChange} value={this.state.styleName}
                                            className="input1 "/>
                                 </div>
@@ -96,6 +99,7 @@ class EditStyleForm extends React.Component {
                         </div>
                     </form>
                 </div>
+                {this.state.submitted && <Navigate to="/styles" />}
             </div>
         );
     }

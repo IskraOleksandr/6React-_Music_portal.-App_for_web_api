@@ -1,6 +1,7 @@
 ﻿import React from "react";
 import withRouter from '../withRouter';
 import axios from 'axios';
+import {Navigate} from "react-router-dom";
 
 class DeleteStyleForm extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class DeleteStyleForm extends React.Component {
         let styleName = '';
 
         this.state = {
+            submitted:false,
             styleId: styleId,
             styleName: styleName,
         };
@@ -25,7 +27,6 @@ class DeleteStyleForm extends React.Component {
             method: "GET",
             headers: {"Content-Type": "application/json"},
         }).then((response) => {
-            console.log('hhh' + response.data.styleName);
             this.setState({
                 styleId: response.data.id,
                 styleName: response.data.styleName,
@@ -42,15 +43,17 @@ class DeleteStyleForm extends React.Component {
             url: "https://localhost:7179/api/musicStyles/" + this.state.styleId,
             method: "DELETE",
             headers: {"Content-Type": "application/json"},
-        }).then(function (response) {
         }).catch(function (error) {
             alert(error);
         });
+
+        setInterval(() => this.setState({submitted: true}),1000);
     }
 
     render() {
         return (
             <div className="dv1v">
+                <br/><br/><br/>
                 <h1 className="h1_n">Удаление стиля</h1>
                 <div className="div_l1 div_l2n1">
 
@@ -72,6 +75,7 @@ class DeleteStyleForm extends React.Component {
                         </form>
                     </div>
                 </div>
+                {this.state.submitted && <Navigate to="/styles" />}
             </div>
         );
     }

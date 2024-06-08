@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import axios from "axios";
+import {Navigate} from "react-router-dom";
 
 class CreateSingerForm extends React.Component {
     constructor(props) {
@@ -8,6 +9,7 @@ class CreateSingerForm extends React.Component {
         let singerNameIsValid = this.validateSingerName(singerName);
 
         this.state = {
+            submitted:false,
             singerName: singerName,
             singerNameValid: singerNameIsValid,
         };
@@ -39,11 +41,11 @@ class CreateSingerForm extends React.Component {
                 data: {
                     singerName: this.state.singerName
                 }
-            }).then(function (response) {
-
             }).catch(function (error) {
                 alert(error);
             });
+
+            setInterval(() => this.setState({submitted: true}),1000);
         }
     }
 
@@ -52,7 +54,8 @@ class CreateSingerForm extends React.Component {
 
         return (
         <div className="dv1v">
-            <h1 id="h1AdEdMusicStyle" className="h1_n">Add singer</h1>
+            <br/><br/><br/><br/>
+            <h1 id="h1AdEdMusicStyle" className="h1_n">Добавить исполнителя</h1>
 
             <div className="div_l1 div_l2n1">
                 <form name="addStyleForm" onSubmit={this.handleSubmit}>
@@ -60,7 +63,7 @@ class CreateSingerForm extends React.Component {
                         <br/>
                         <div className="div_l3n">
                             <div className="div_l4">
-                                <label className="label_l1">Singer name</label>
+                                <label className="label_l1">Имя исполнителя:</label>
                                 <input type="text" onChange={this.onSingerNameChange} value={this.state.singerName}
                                        className="input1 "/>
                             </div>
@@ -73,6 +76,7 @@ class CreateSingerForm extends React.Component {
                     </div>
                 </form>
             </div>
+            {this.state.submitted && <Navigate to="/singers" />}
         </div>
         );
     }
